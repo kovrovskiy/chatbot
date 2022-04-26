@@ -36,6 +36,7 @@ def get_answer(text):
       if match(text, example):
         return random.choice(BOT_CONFIG[intent]["responses"])
 
+#while True:
 text = input()  # То что нам написал юзер 
 answer = get_answer(text)
 print(answer)
