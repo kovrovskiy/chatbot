@@ -1,2 +1,2 @@
 # chatbot
-Chat Cot with artificial intelligence
+The ChatBot with artificial intelligence
