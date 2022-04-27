@@ -1,17 +1,25 @@
 #webinar skillbox python and chatbot
 
-import json, os, nltk, random
+from cgitb import handler
+import json, os, nltk, random #, pickle
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.linear_model import LogisticRegression
+#from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
+from telegram import Update   
+from telegram.ext import Updater, MessageHandler, Filters
+#from sklearn.model_selection import GridSearchCV
 
 os.chdir("C:\\Project\\chatbot\\")
 
 config_file = open("big_bot_config.json", "r")
 BOT_CONFIG = json.load(config_file)
-#BOT_CONFIG["intents"].keys()
-#BOT_CONFIG["intents"]["About sport"]
+BOT_KEY = "5353279424:AAERubY7iIPI8G-wI38824W2_TdP6syVNVw"
 
+def botReactOnMessage(update: Update, context):
+  text = update.message.text #то что пользователь нам написал
+  print(f"[user]: {text}")
+  reply = bot(text)
+  update.message.reply_text(reply)
 
 def filter(text):
   alphabet = 'абвгджзеёийклмнопрстуфхцчшщьыъэюя -'
@@ -81,9 +89,31 @@ vecX = vectorizer.transform(x)
 
 #y_pred = model.predict(vecX)
 
-model = RandomForestClassifier(n_estimators = 500, min_samples_split=3)
+#model = RandomForestClassifier(n_estimators = 500, min_samples_split=3)
+model = RandomForestClassifier()
 model.fit(vecX, y)
+
+#запись модели в файл для сохранения
+#f = open("bot_model.class", "wb")
+#pickle.dump(model, f)
+
+#поиск идеальной модели
+#ideal_model = RandomForestClassifier()
+#param = {
+#    "n_estimators": [60, 140],
+#    "criterion": ["gini", "entropy"],
+#}
+
+#cv = GridSearchCV(ideal_model, param)
+#cv.fit(vecX, y)
+
 print(model.score(vecX, y))
+
+upd = Updater(BOT_KEY)
+handler = MessageHandler(Filters.text, botReactOnMessage)
+upd.dispatcher.add_handler(handler)
+upd.start_polling()
+upd.idle()
 
 print("Поговори со мной...")
 question = "" # Вопрос который задает пользователь
