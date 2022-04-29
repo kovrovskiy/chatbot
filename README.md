@@ -18,5 +18,6 @@ Vectorizer turns texts into vectors (sets of numbers)
 	>model = LogisticRegression() # Settings
 	>model.fit(vecX, y)
 or
+
 	>model = RandomForestClassifier(n_estimators = 500, min_samples_split=3)
 	>model.fit(vecX, y)
