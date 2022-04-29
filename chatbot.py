@@ -77,7 +77,7 @@ upd.start_polling()
 upd.idle()
 
 question = "" # The question asked by the user
-while question != "Exit":
+while question != "Выйти":
   question = input()
   answer = bot(question)
   print(f"User]: {question}")
