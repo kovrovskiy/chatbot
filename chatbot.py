@@ -1,13 +1,11 @@
 #webinar skillbox python and chatbot
 
 from cgitb import handler
-import json, os, nltk, random #, pickle
+import json, os, nltk, random
 from sklearn.feature_extraction.text import CountVectorizer
-#from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from telegram import Update   
 from telegram.ext import Updater, MessageHandler, Filters
-#from sklearn.model_selection import GridSearchCV
 
 os.chdir("C:\\Project\\chatbot\\")
 
@@ -26,7 +24,7 @@ def filter(text):
   result = [c for c in text if c in alphabet]  # Фильтрует символы не входящие в список
   return ''.join(result)
 
-# Если текст похож на example то вернуть "True", "False"
+# If the text is similar to example then return "True", "False"
 def match(text, example):
     text = filter(text.lower())
     example = example.lower()
@@ -53,9 +51,9 @@ def bot(text):
   # Если не найдено
   return random.choice(BOT_CONFIG["failure_phrases"])
 
-# X - тексты (примеры)
+# X - texts
 x = []
-# y - названия интентов (классы)
+# y - name of intents
 y = [] 
 
 for name, data in BOT_CONFIG["intents"].items():
@@ -63,49 +61,12 @@ for name, data in BOT_CONFIG["intents"].items():
     x.append(example)
     y.append(name)
 
-#len(X)
-#len(BOT_CONFIG["intents"])
-
-# Векторайзер превращает тексты в вектора (наборы чисел)
-
-# Мама круто мыла раму => [1,2,3,4]
-# круто мама раму мыла => [2,1,4,3]
-# мыла  => [3,0,0,0]
-
-# "мама" = 1, "круто" = 2, "мыла" = 3, "раму" = 4
-
 vectorizer = CountVectorizer()
-vectorizer.fit(x)  # Учится вот эти конкретные тексты преобразовывать в вектора
+vectorizer.fit(x)  
 vecX = vectorizer.transform(x)
-#len(list(vecX.toarray()[0]))
 
-# 3. Обучить модель (алгоритм, настройки)
-#model = LogisticRegression() # Настройки
-#model.fit(vecX, y)
-#test = vectorizer.transform(["меньше чем за миллион я не согласился бы"])
-#model.predict(test)
-# 4. Проверить качество модели
-#model.score(vecX, y)
-
-#y_pred = model.predict(vecX)
-
-#model = RandomForestClassifier(n_estimators = 500, min_samples_split=3)
-model = RandomForestClassifier()
+model = RandomForestClassifier(n_estimators = 500, min_samples_split=3)
 model.fit(vecX, y)
-
-#запись модели в файл для сохранения
-#f = open("bot_model.class", "wb")
-#pickle.dump(model, f)
-
-#поиск идеальной модели
-#ideal_model = RandomForestClassifier()
-#param = {
-#    "n_estimators": [60, 140],
-#    "criterion": ["gini", "entropy"],
-#}
-
-#cv = GridSearchCV(ideal_model, param)
-#cv.fit(vecX, y)
 
 print(model.score(vecX, y))
 
@@ -116,7 +77,7 @@ upd.start_polling()
 upd.idle()
 
 print("Поговори со мной...")
-question = "" # Вопрос который задает пользователь
+question = "" # The question asked by the user
 while question != "Выйти":
   question = input()
   answer = bot(question)
