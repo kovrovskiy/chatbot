@@ -13,7 +13,7 @@ Vectorizer turns texts into vectors (sets of numbers)
 	vectorizer.fit(x)  # Learns to convert these specific texts into vectors
 	vecX = vectorizer.transform(x)
 
-#Train the model (algorithm, settings)
+# Train the model (algorithm, settings)
 
 	model = LogisticRegression() # Settings
 	model.fit(vecX, y)
