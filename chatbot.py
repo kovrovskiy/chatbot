@@ -76,10 +76,9 @@ upd.dispatcher.add_handler(handler)
 upd.start_polling()
 upd.idle()
 
-print("Поговори со мной...")
 question = "" # The question asked by the user
-while question != "Выйти":
+while question != "Exit":
   question = input()
   answer = bot(question)
-  print(f"[Юзер]: {question}")
-  print(f"[Бот]: {answer}")
+  print(f"User]: {question}")
+  print(f"[Bot]: {answer}")
